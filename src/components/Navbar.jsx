@@ -3,12 +3,14 @@ import { useContext } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/userContext'
 import { BsPower } from 'react-icons/bs'
+import AdminButton from './AdminButton'
 
 function Navbar() {
    const navegar = useNavigate()
-   const { user, setUser } = useContext(UserContext)
+   const { user, setUser, setAdminMode } = useContext(UserContext)
 
    const logout = () => {
+      setAdminMode(false)
       setUser(null)
       navegar('/login')
    }
@@ -58,16 +60,7 @@ function Navbar() {
                      Blog
                   </NavLink>
                   {user.rol === 'Admin' && 
-                     <NavLink
-                        to={'/admin'}
-                        className={({ isActive }) =>
-                           isActive
-                              ? 'bg-emerald-500/50 rounded-lg px-2 hover:bg-emerald-500'
-                              : 'rounded-lg px-2 hover:bg-emerald-500'
-                        }
-                     >
-                        Administrador
-                     </NavLink>
+                     <AdminButton/>
                   }
                   <button
                      onClick={logout}
