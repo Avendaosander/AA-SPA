@@ -1,10 +1,14 @@
 /** @type {import('tailwindcss').Config} */
+import scrollbarPlugin from 'tailwind-scrollbar';
 export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    fontFamily: {
+      'laila': ['Laila', 'sans-serif'],
+    },
     extend: {
       backgroundImage: {
         'HOME': "url('./assets/Home.jpg')"
@@ -12,7 +16,7 @@ export default {
     },
   },
   plugins: [
-    require ( 'tailwind-scrollbar' ) ( {  nocompatible : true  } )
+    scrollbarPlugin({ nocompatible: true })
   ],
 }
 
