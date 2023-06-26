@@ -145,7 +145,7 @@ function FormReservation({ data, showFormReservation, peticion }) {
                className='bg-emerald-600 text-emerald-100 m-auto px-6 rounded-md col-span-1'
                onClick={handleSubmit}
             >
-               Crear reservacion
+               {data.service?._id ? 'Editar Reservacion' : 'Crear Reservacion'}
             </button>
             <button
                onClick={showFormReservation}
