@@ -21,6 +21,11 @@ export const deleteItemFromState = (itemDelete, list) => {
    }
 }
 
+export const deleteItemsFromState = (itemsToDelete, list) => {
+   const updatedList = list.filter(item => !itemsToDelete.some(deleteItem => deleteItem._id === item._id));
+   return updatedList;
+}
+
 export const truncatedText = (texto) => {
    // Numero limite para truncar
    const limit = 150
