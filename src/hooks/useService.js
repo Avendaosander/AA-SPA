@@ -1,23 +1,25 @@
 import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../context/userContext"
 import { getService } from "../services/service"
-// import { SpaContext } from "../context/spaContext"
+import { useSpa } from "./useSpa"
 
 export const useService = (id) => {
+   const { user } = useContext(UserContext)
+   const { testimonials } = useSpa()
    const [loading, setLoading] = useState(false)
    const [error, setError] = useState(null)
-   const { user } = useContext(UserContext)
-   const [service, setServices] = useState([])
-   const [testimonialsOfService, setTestimonials] = useState([])
-
+   const [service, setService] = useState([])
+   const [testimonialsOfService, setTestimonialsOfService] = useState([])
+   
    useEffect(() => {
       const obtenerServicio = async () => {
          try {
             setLoading(true)
             setError(null)
             const service = await getService(user.token, id)
-            setServices(service.service)
-            setTestimonials(service.testimonials)
+            if(service?.messageError) throw new Error(service)
+            setService(service.service)
+            setTestimonialsOfService(service.testimonials)
          } catch (error) {
             setError(error.message)
          } finally {
@@ -25,7 +27,7 @@ export const useService = (id) => {
          }
       }
       obtenerServicio()
-   }, [])
+   }, [testimonials])
 
-   return { service, testimonialsOfService, loading, error, setServices}
+   return { service, testimonialsOfService, loading, error }
 }

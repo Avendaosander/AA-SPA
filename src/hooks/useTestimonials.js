@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { decodeToken } from "react-jwt"
 import { UserContext } from "../context/userContext"
 import { postTestimony, deleteTestimony } from "../services/testimonials"
-import { addItemToState, deleteItemFromState } from "../logic/funciones"
+import { addItemToState, deleteItemFromState, deleteItemsFromState } from "../logic/funciones"
 import { obtenerHome } from "../services/home"
 
 export const useTestimonials = (setLoading,setError) => {
@@ -24,7 +24,6 @@ export const useTestimonials = (setLoading,setError) => {
       }
    }
 
-
    const removeTestimony = async (id) => {
       try {
          setLoading(true)
@@ -32,6 +31,19 @@ export const useTestimonials = (setLoading,setError) => {
          const peticion = await deleteTestimony(user.token, id)
          if(peticion?.messageError) throw new Error(peticion)
          const newList = deleteItemFromState(peticion.testimony, testimonials)
+         setTestimonials(newList)
+      } catch (error) {
+         setError(error.message)
+      } finally {
+         setLoading(false)
+      }
+   }
+   
+   const removeTestimonials = async (items) => {
+      try {
+         setLoading(true)
+         setError(null)
+         const newList = deleteItemsFromState(items, testimonials)
          setTestimonials(newList)
       } catch (error) {
          setError(error.message)
@@ -57,5 +69,5 @@ export const useTestimonials = (setLoading,setError) => {
       obtenerTestimonios()
    }, [])
 
-   return { testimonials, addTestimony, removeTestimony}
+   return { testimonials, addTestimony, removeTestimony, removeTestimonials}
 }

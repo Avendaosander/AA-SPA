@@ -4,11 +4,14 @@ import { obtenerHome } from "../services/home"
 import { deleteService, postService, putService } from "../services/services"
 import { addItemToState, udpateItemFromState, deleteItemFromState } from "../logic/funciones"
 import { decodeToken } from "react-jwt"
+import { useReservations } from "./useReservations"
+import { useTestimonials } from "./useTestimonials"
 
 export const useServices = (setLoading, setError) => {
    const { user } = useContext(UserContext)
+   const { removeReservations } = useReservations(setLoading, setError)
+   const { removeTestimonials } = useTestimonials(setLoading, setError)
    const [services, setServices] = useState([])
-   const [testimonials, setTestimonials] = useState([])
       
    const addService = async (data) => {
       try {
@@ -50,6 +53,8 @@ export const useServices = (setLoading, setError) => {
          const peticion = await deleteService(user.token, id, userID)
          if(peticion?.messageError) throw new Error(peticion)
          const newList = deleteItemFromState(peticion.service, services)
+         removeReservations(peticion.deletedReservations)
+         removeTestimonials(peticion.deletedTestimonials)
          setServices(newList)
       } catch (error) {
          setError(error.message)
@@ -65,7 +70,6 @@ export const useServices = (setLoading, setError) => {
             setError(null)
             const getHome = await obtenerHome(user.token)
             setServices(getHome.services)
-            setTestimonials(getHome.testimonials)
          } catch (error) {
             setError(error.message)
          } finally {
@@ -75,5 +79,5 @@ export const useServices = (setLoading, setError) => {
       getHome()
    }, [user])
 
-   return { services, testimonials, addService, updateService, removeService}
+   return { services, addService, updateService, removeService}
 }

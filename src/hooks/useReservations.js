@@ -2,13 +2,11 @@ import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../context/userContext"
 import { getReservations, postReservation, putReservation, deleteReservation } from "../services/reservations"
 import { decodeToken } from "react-jwt"
-import { addItemToState, udpateItemFromState, deleteItemFromState } from "../logic/funciones"
+import { addItemToState, udpateItemFromState, deleteItemFromState, deleteItemsFromState } from "../logic/funciones"
 
-export const useReservations = () => {
+export const useReservations = (setLoading, setError) => {
    const { user } = useContext(UserContext)
    const [reservations, setReservations] = useState([])
-   const [loading, setLoading] = useState(false)
-   const [error, setError] = useState(null)
 
    const addReservation = async (data) => {
       try {
@@ -55,6 +53,19 @@ export const useReservations = () => {
       }
    }
 
+   const removeReservations = async (items) => {
+      try {
+         setLoading(true)
+         setError(null)
+         const newList = deleteItemsFromState(items, reservations)
+         setReservations(newList)
+      } catch (error) {
+         setError(error.message)
+      } finally {
+         setLoading(false)
+      }
+   }
+
    useEffect(() => {
       const obtenerReservaciones = async () => {
          try {
@@ -72,5 +83,5 @@ export const useReservations = () => {
       obtenerReservaciones()
    }, [])
 
-   return { reservations, loading, error, addReservation, updateReservation, removeReservation}
+   return { reservations, addReservation, updateReservation, removeReservation, removeReservations}
 }
