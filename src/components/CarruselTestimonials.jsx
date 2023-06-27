@@ -1,18 +1,24 @@
 import { useContext, useState } from 'react'
 import { UserContext } from '../context/userContext'
-import { SpaContext } from '../context/spaContext'
 import { VscClose } from 'react-icons/vsc'
+import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs'
 import ModalDelete from './ModalDelete'
+import { useSpa } from '../hooks/useSpa'
+import { decodeToken } from 'react-jwt'
 
 const CarruselTestimonials = ({ testimonials }) => {
-   const { user } = useContext(UserContext)
-   const { removeTestimony } = useContext(SpaContext)
+   const { user, adminMode } = useContext(UserContext)
+   const { removeTestimony } = useSpa()
    const [currentIndex, setCurrentIndex] = useState(0)
    const [deleteItem, setDeleteItem] = useState(null)
    const [modalDelete, setModalDelete] = useState(false)
+   const userID = decodeToken(user.token).id
+
+   const hasDeleteCondition = (testimonialID) => {
+      return adminMode || userID === testimonialID
+   }
 
    const handleModalDelete = (data = null) => {
-      console.log(data)
       if (data) setDeleteItem(data)
       setModalDelete(!modalDelete)
    }
@@ -34,10 +40,10 @@ const CarruselTestimonials = ({ testimonials }) => {
       <>
          <article className='w-[600px] h-[200px] mx-auto flex justify-between items-center gap-10'>
             <button
-               className='text-gray-500 hover:text-gray-700 focus:outline-none'
+               className={`p-5 text-2xl bg-emerald-400/50 rounded-lg hover:scale-105 hover:bg-emerald-500/50 hover:text-gray-700 focus:outline-none ${testimonials.length === 1 && 'opacity-0 pointer-events-none'}`}
                onClick={handlePrev}
             >
-               Prev
+               <BsChevronCompactLeft/>
             </button>
             <div className='relative flex flex-col gap-5 py-5 px-10 max-w-[400px] text-left bg-emerald-200/50 ring-1 ring-emerald-600 rounded-r-xl rounded-bl-xl'>
                {testimonials.map((testimonial, index) => (
@@ -52,19 +58,19 @@ const CarruselTestimonials = ({ testimonials }) => {
                            <span className='font-medium'> {testimonial.service.titulo}</span>
                         </p>
                         <p className='font-medium'>{testimonial.descripcion}</p>
-                        {user.rol === 'Admin' && 
-                           <button className="absolute top-2 right-2" onClick={() => handleModalDelete(testimonial._id)}>
-                              <VscClose className='text-lg'/>
+                        {hasDeleteCondition(testimonial.user._id) && 
+                           <button className="absolute top-2 right-2 text-lg text-rose-600" onClick={() => handleModalDelete(testimonial._id)}>
+                              <VscClose className=''/>
                            </button>
                         }
                   </div>
                ))}
             </div>
             <button
-               className='text-gray-500 hover:text-gray-700 focus:outline-none'
+               className={`p-5 text-2xl bg-emerald-400/50 rounded-lg hover:scale-105 hover:bg-emerald-500/50 hover:text-gray-700 focus:outline-none ${testimonials.length === 1 && 'opacity-0 pointer-events-none'}`}
                onClick={handleNext}
             >
-               Next
+               <BsChevronCompactRight/>
             </button>
          </article>
          {modalDelete && 
