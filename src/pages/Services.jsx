@@ -15,12 +15,29 @@ import CarruselTestimonials from '../components/CarruselTestimonials'
 import FormService from '../components/FormService'
 import { useContext, useState } from 'react'
 import { UserContext } from '../context/userContext'
+import ModalEdit from '../components/ModalEdit'
+import ModalDelete from '../components/ModalDelete'
 
 
 function Services() {
    const { user, adminMode } = useContext(UserContext)
-   const { services, testimonials, addService, loading } = useSpa()
+   const { services, testimonials, addService, updateService, removeService, loading } = useSpa()
    const [formService, setFormService] = useState(false)
+   const [modalEdit, setModalEdit] = useState(false)
+   const [modalDelete, setModalDelete] = useState(false)
+   const [itemUpdate, setItemUpdate] = useState(null)
+   const [itemDelete, setItemDelete] = useState(null)
+
+   const handleModalDelete = (data = null) => {
+      if (data) setItemDelete(data)
+      setModalDelete(!modalDelete)
+   }
+   
+   const handleModalEdit = (data = null) => {
+      if (data) setItemUpdate(data)
+      setModalEdit(!modalEdit)
+   }
+
    const showFormService = () => {
       setFormService(!formService)
    }
@@ -46,6 +63,8 @@ function Services() {
                         <CardService
                            key={service._id}
                            data={service}
+                           handleModalEdit={handleModalEdit}
+                           handleModalDelete={handleModalDelete}
                         />
                      ))
                   )
@@ -121,6 +140,14 @@ function Services() {
                   )
                )}
             </section>
+            {modalEdit && 
+               <ModalEdit>
+                  <FormService data={itemUpdate} showFormService={handleModalEdit} peticion={updateService}/>
+               </ModalEdit>
+            }
+            {modalDelete && 
+               <ModalDelete handleModalDelete={handleModalDelete} id={itemDelete} peticion={removeService}/>
+            }
          </main>
       </>
    )
