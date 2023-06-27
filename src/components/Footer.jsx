@@ -7,7 +7,7 @@ function Footer() {
    const isPathReservation = pathname === '/reservations'
    return (
       <footer
-         className={`${isPathAuth && 'hidden'} ${isPathReservation && 'fixed bottom-0'} bg-emerald-600 w-full h-20 flex justify-around items-center text-emerald-100 text-xl font-medium`}
+         className={`${isPathAuth && 'hidden'} ${isPathReservation && 'fixed bottom-0'} bg-emerald-600 w-full h-20 flex flex-col sm:flex-row justify-around items-center text-emerald-100 md:text-xl font-medium`}
       >
          <section className='flex items-center justify-center gap-5'>
             <h3>Desarrollador:</h3>
@@ -21,8 +21,7 @@ function Footer() {
                   <img
                      src={GithubLogo}
                      alt='Github Logo'
-                     width={35}
-                     className='hover:scale-110'
+                     className='hover:scale-110 w-7 sm:w-9'
                   />
                </a>
             </div>

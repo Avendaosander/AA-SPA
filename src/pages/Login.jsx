@@ -28,7 +28,7 @@ function Login() {
    }
 
    return (
-      <main className='flex justify-center items-center mt-44'>
+      <main className='flex justify-center items-center my-44'>
          <form
             className='flex flex-col justify-around font-semibold w-[23rem] bg-emerald-300 ring-2 ring-emerald-600 p-5 text-xl rounded-xl'
             onSubmit={handleSubmit}

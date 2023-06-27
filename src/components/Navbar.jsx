@@ -16,7 +16,7 @@ function Navbar() {
    }
 
    return (
-      <nav className='bg-emerald-600 text-emerald-100 font-bold text-xl h-20 w-full flex justify-between items-center px-5'>
+      <nav className='bg-emerald-600 text-emerald-100 font-bold text-base md:text-xl h-auto sm:h-20 w-full flex flex-col sm:flex-row justify-between items-center px-5 py-5 sm:py-0 gap-5'>
          <section>
             <NavLink to={'/'}>
                <img
@@ -26,7 +26,7 @@ function Navbar() {
                />
             </NavLink>
          </section>
-         <section className='flex justify-between gap-5'>
+         <section className='flex flex-col sm:flex-row justify-between items-center gap-5'>
             {user ? (
                <>
                   <NavLink
@@ -64,7 +64,7 @@ function Navbar() {
                   }
                   <button
                      onClick={logout}
-                     className='rounded-lg px-2 hover:bg-emerald-500 hover:text-emerald-950 flex items-center text-2xl'
+                     className='rounded-lg p-1 hover:bg-emerald-500 hover:text-emerald-950 flex items-center text-2xl'
                   >
                      <BsPower />
                   </button>

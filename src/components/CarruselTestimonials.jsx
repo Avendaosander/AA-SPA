@@ -38,14 +38,14 @@ const CarruselTestimonials = ({ testimonials }) => {
 
    return (
       <>
-         <article className='w-[600px] h-[200px] mx-auto flex justify-between items-center gap-10'>
+         <article className='mx-auto sm:h-[200px] grid grid-cols-2 sm:grid-cols-6 max-sm:grid-rows-[auto,1,auto] max-sm:justify-items-center items-center gap-5'>
             <button
-               className={`p-5 text-2xl bg-emerald-400/50 rounded-lg hover:scale-105 hover:bg-emerald-500/50 hover:text-gray-700 focus:outline-none ${testimonials.length === 1 && 'opacity-0 pointer-events-none'}`}
+               className={`h-auto sm:col-start-1 w-full flex justify-center items-center p-1 sm:p-5 text-2xl bg-emerald-400/50 rounded-lg hover:scale-105 hover:bg-emerald-500/50 hover:text-gray-700 ${testimonials.length === 1 && 'opacity-0 pointer-events-none'}`}
                onClick={handlePrev}
             >
                <BsChevronCompactLeft/>
             </button>
-            <div className='relative flex flex-col gap-5 py-5 px-10 max-w-[400px] text-left bg-emerald-200/50 ring-1 ring-emerald-600 rounded-r-xl rounded-bl-xl'>
+            <div className='max-sm:row-start-1 col-span-2 sm:col-span-4 relative flex flex-col gap-5 py-5 px-10 sm:w-[400px] text-left bg-emerald-200/50 ring-1 ring-emerald-600 rounded-r-xl rounded-bl-xl'>
                {testimonials.map((testimonial, index) => (
                   <div
                      key={testimonial._id}
@@ -67,7 +67,7 @@ const CarruselTestimonials = ({ testimonials }) => {
                ))}
             </div>
             <button
-               className={`p-5 text-2xl bg-emerald-400/50 rounded-lg hover:scale-105 hover:bg-emerald-500/50 hover:text-gray-700 focus:outline-none ${testimonials.length === 1 && 'opacity-0 pointer-events-none'}`}
+               className={`h-auto sm:col-span-1 w-full flex justify-center items-center p-1 sm:p-5 text-2xl bg-emerald-400/50 rounded-lg hover:scale-105 hover:bg-emerald-500/50 hover:text-gray-700 ${testimonials.length === 1 && 'opacity-0 pointer-events-none'}`}
                onClick={handleNext}
             >
                <BsChevronCompactRight/>

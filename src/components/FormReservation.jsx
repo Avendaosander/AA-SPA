@@ -60,8 +60,8 @@ function FormReservation({ data, showFormReservation, peticion }) {
 
    return (
       <>
-         <form className='text-left text-lg ring-2 ring-emerald-600 p-5 rounded-xl grid grid-cols-2 justify-center gap-10'>
-            <fieldset className='flex flex-col gap-2 col-span-1'>
+         <form className='text-left text-lg ring-2 ring-emerald-600 p-5 rounded-xl flex flex-col sm:flex-row justify-center gap-10'>
+            <fieldset className='flex flex-col gap-2'>
                <legend className='font-bold text-xl mb-5 text-center'>
                   Datos para la cita
                </legend>
@@ -128,28 +128,28 @@ function FormReservation({ data, showFormReservation, peticion }) {
                   className='bg-emerald-50 px-2 rounded-lg outline-none focus:ring-2 focus:ring-emerald-600'
                />
             </fieldset>
-            <fieldset className='flex flex-col gap-2 col-span-1'>
+            <fieldset className='flex flex-col gap-2 max-sm:items-center'>
                <legend className='font-bold text-xl mb-5 text-center'>
                   Datos del servicio
                </legend>
-               <p className='font-medium'>Servicio</p>
+               <p className='font-semibold'>Servicio</p>
                <p className=''>{data.service?.titulo || data.titulo}</p>
-               <p className='font-medium'>Duración</p>
+               <p className='font-semibold'>Duración</p>
                <p className=''>{reservation.duracion} min</p>
-               <p className='font-medium'>Precio</p>
+               <p className='font-semibold'>Precio</p>
                <p className=''>${reservation.precio}</p>
             </fieldset>
          </form>
-         <div className='flex justify-evenly mt-5'>
+         <div className='flex justify-evenly mt-5 max-sm:gap-5'>
             <button
-               className='bg-emerald-600 text-emerald-100 m-auto px-6 rounded-md col-span-1'
+               className='bg-emerald-600 text-emerald-100 px-4 rounded-md'
                onClick={handleSubmit}
             >
                {data.service?._id ? 'Editar Reservacion' : 'Crear Reservacion'}
             </button>
             <button
                onClick={showFormReservation}
-               className='bg-rose-500 text-emerald-100 m-auto px-6 rounded-md disabled:bg-black/50 col-span-1'
+               className='bg-rose-500 text-emerald-100 px-4 rounded-md disabled:bg-black/50'
             >
                Cancelar
             </button>
