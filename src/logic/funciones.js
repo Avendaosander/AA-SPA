@@ -20,3 +20,14 @@ export const deleteItemFromState = (itemDelete, list) => {
      return list
    }
 }
+
+export const truncatedText = (texto) => {
+   // Numero limite para truncar
+   const limit = 150
+
+   // Obtiene las primeras 200 palabras
+   const truncatedResult = texto.slice(0, limit);
+   
+   // Agregar los tres puntos suspensivos si el texto es mayor del limite
+   return truncatedResult.length < limit ? truncatedResult : `${truncatedResult}...`;
+}
