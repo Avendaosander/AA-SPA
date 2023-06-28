@@ -6,12 +6,15 @@ import { truncatedText } from '../logic/funciones'
 
 function CardService({ data, handleModalEdit, handleModalDelete }) {
    const { adminMode } = useContext(UserContext)
+   
+   const precio = data.descuento ? `$${data.precio} -${data.descuento}%` : `$${data.precio}`
+   
    return (
       <article className='flex flex-col gap-5 p-5 bg-emerald-300 ring-2 ring-emerald-600 rounded-xl max-w-[290px] w-full  mx-auto'>
          <h3 className='font-bold text-lg'>{data.titulo}</h3>
          <p className='font-medium text-justify break-words'>{truncatedText(data.descripcion)}</p>
          <div className='flex justify-around'>
-            <strong className='text-emerald-950/70'>${data.precio}</strong>
+            <strong className='text-emerald-950/70'>{precio}</strong>
             <strong className='text-emerald-950/70'>{data.duracion} min</strong>
          </div>
          
