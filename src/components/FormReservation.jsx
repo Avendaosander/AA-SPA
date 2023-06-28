@@ -19,7 +19,35 @@ function FormReservation({ data, showFormReservation, peticion }) {
       precio: data?.precio || data.precio
    })
 
+   function getMinimumDate() {
+      const today = new Date();
+      const year = today.getFullYear();
+      let month = today.getMonth() + 1;
+      let day = today.getDate();
+   
+      if (month < 10) month = `0${month}`
+      
+      if (day < 10) day = `0${day}`
+   
+      return `${year}-${month}-${day}`;
+   }
+
    const handleChange = e => {
+      if (e.target.name === 'hora') {
+         const selectedTime = e.target.value.split(':');
+         const hours = parseInt(selectedTime[0]);
+         const minutes = parseInt(selectedTime[1]);
+   
+         if (
+               (hours < 8) ||
+               (hours === 8 && minutes < 0) ||
+               (hours > 18) ||
+               (hours === 18 && minutes > 0)
+            ) {
+            setError('Las horas permitidas son de 8 AM a 6 PM');
+            return;
+         }
+      }
       setReservation({
          ...reservation,
          [e.target.name]: e.target.value
@@ -108,6 +136,7 @@ function FormReservation({ data, showFormReservation, peticion }) {
                   type='date'
                   name='fecha'
                   id='fecha'
+                  min={getMinimumDate()}
                   value={reservation.fecha}
                   onChange={handleChange}
                   className='bg-emerald-50 px-2 rounded-lg outline-none focus:ring-2 focus:ring-emerald-600'
@@ -120,8 +149,8 @@ function FormReservation({ data, showFormReservation, peticion }) {
                </label>
                <input
                   type='time'
-                  min={8}
-                  max={18}
+                  min={'08:00'}
+                  max={'06:00'}
                   name='hora'
                   id='hora'
                   value={reservation.hora}

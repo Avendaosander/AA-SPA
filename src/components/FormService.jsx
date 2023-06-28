@@ -21,9 +21,30 @@ function FormService({  data, showFormService, peticion }) {
 
    const handleSubmit = e => {
       e.preventDefault()
+      const { titulo, descripcion, duracion, precio, descuento } = service;
+      if (service.titulo.trim() === '')
+         return setError('El campo titulo no puede estar vacio')
+      if (service.descripcion.trim() === '')
+         return setError('El campo descripcion no puede estar vacio')
+      if (service.duracion < 5)
+         return setError(
+            'Los servicios deben tener una duracion minima de 5 minutos'
+         )
+      if (service.precio < 1)
+         return setError(
+            'Los servicios deben tener un precio minimo de $1'
+         )
+      const serviceToSend = {
+         titulo,
+         descripcion,
+         duracion,
+         precio,
+         ...(descuento !== 0 && { descuento })
+      };
+
       showFormService()
-      if(data) return peticion(service, data._id)
-      peticion(service)
+      if(data) return peticion(serviceToSend, data._id)
+      peticion(serviceToSend)
    }
 
    return (
