@@ -19,7 +19,7 @@ export const useServices = (setLoading, setError) => {
          setError(null)
          const userID = decodeToken(user.token).id
          const peticion = await postService(data, user.token, userID)
-         if(peticion?.messageError) throw new Error(peticion)
+         if(peticion?.messageError) throw new Error(peticion.messageError)
          const newList = addItemToState(peticion.service, services)
          setServices(newList)
       } catch (error) {
@@ -35,7 +35,7 @@ export const useServices = (setLoading, setError) => {
          setError(null)
          const userID = decodeToken(user.token).id
          const peticion = await putService(data, user.token, id, userID)
-         if(peticion?.messageError) throw new Error(peticion)
+         if(peticion?.messageError) throw new Error(peticion.messageError)
          const newList = udpateItemFromState(peticion.service, services)
          setServices(newList)
       } catch (error) {
@@ -51,7 +51,7 @@ export const useServices = (setLoading, setError) => {
          setError(null)
          const userID = decodeToken(user.token).id
          const peticion = await deleteService(user.token, id, userID)
-         if(peticion?.messageError) throw new Error(peticion)
+         if(peticion?.messageError) throw new Error(peticion.messageError)
          const newList = deleteItemFromState(peticion.service, services)
          removeReservations(peticion.deletedReservations)
          removeTestimonials(peticion.deletedTestimonials)
@@ -69,6 +69,7 @@ export const useServices = (setLoading, setError) => {
             setLoading(true)
             setError(null)
             const getHome = await obtenerHome(user.token)
+            if(getHome?.messageError) throw new Error(getHome.messageError)
             setServices(getHome.services)
          } catch (error) {
             setError(error.message)

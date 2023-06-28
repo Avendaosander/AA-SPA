@@ -16,6 +16,7 @@ export function SpaProvider({ children }) {
       <SpaContext.Provider value={{
          loading,
          error,
+         setError,
          reservations,
          addReservation,
          updateReservation,

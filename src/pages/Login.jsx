@@ -1,28 +1,30 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from '../context/userContext'
 import { useUser } from '../hooks/useUser'
 import { login } from '../services/login'
 import { BsLockFill, BsPersonFill } from 'react-icons/bs'
+import ErrorModal from '../components/ErrorModal'
 
 function Login() {
    const navegar = useNavigate()
    const { setUser } = useContext(UserContext)
    const { user, handleChange } = useUser()
+   const [error, setError] = useState('')
 
    const handleSubmit = async e => {
       e.preventDefault()
       if (user.username.trim() === '')
-         return console.error('El campo username no puede estar vacio')
+         return setError('El campo username no puede estar vacio')
       if (user.password.trim() === '')
-         return console.error('El campo password no puede estar vacio')
+         return setError('El campo password no puede estar vacio')
 
       const body = {
          username: user.username,
          password: user.password,
       }
       const userLoggedIn = await login(body)
-      if(userLoggedIn?.messageError) return console.error(userLoggedIn)
+      if(userLoggedIn?.messageError) return setError(userLoggedIn.messageError)
       setUser(userLoggedIn)
       navegar('/services')
    }
@@ -78,6 +80,9 @@ function Login() {
                Login
             </button>
          </form>
+         {!!error && 
+            <ErrorModal error={error} setError={setError}/>
+         }
       </main>
    )
 }

@@ -14,7 +14,7 @@ export const useTestimonials = (setLoading,setError) => {
          setLoading(true)
          setError(null)
          const peticion = await postTestimony(data, user.token)
-         if(peticion?.messageError) throw new Error(peticion)
+         if(peticion?.messageError) throw new Error(peticion.messageError)
          const newList = addItemToState(peticion.testimony, testimonials)
          setTestimonials(newList)
       } catch (error) {
@@ -29,7 +29,7 @@ export const useTestimonials = (setLoading,setError) => {
          setLoading(true)
          setError(null)
          const peticion = await deleteTestimony(user.token, id)
-         if(peticion?.messageError) throw new Error(peticion)
+         if(peticion?.messageError) throw new Error(peticion.messageError)
          const newList = deleteItemFromState(peticion.testimony, testimonials)
          setTestimonials(newList)
       } catch (error) {
@@ -59,6 +59,7 @@ export const useTestimonials = (setLoading,setError) => {
             setError(null)
             const userID = decodeToken(user.token).id
             const get = await obtenerHome(user.token, userID)
+            if(get?.messageError) throw new Error(get.messageError)
             setTestimonials(get.testimonials)
          } catch (error) {
             setError(error.message)

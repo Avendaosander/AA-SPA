@@ -1,10 +1,12 @@
 import { useContext, useState } from 'react'
 import { decodeToken } from 'react-jwt'
 import { UserContext } from '../context/userContext'
+import ErrorModal from './ErrorModal'
 
 function FormReservation({ data, showFormReservation, peticion }) {
    const { user } = useContext(UserContext)
    const userID = decodeToken(user.token).id
+   const [error, setError] = useState('')
 
    const [reservation, setReservation] = useState({
       service: data.service?._id || data._id,
@@ -38,21 +40,20 @@ function FormReservation({ data, showFormReservation, peticion }) {
 
    const handleSubmit = async e => {
       e.preventDefault()
-      // console.log(reservation)
       if (reservation.nombre.trim() === '')
-         return console.error('El campo nombre no puede estar vacio')
+         return setError('El campo nombre no puede estar vacio')
       if (reservation.personas <= 0)
-         return console.error(
+         return setError(
             'Los servicios estan disponibles solo para 1 persona minimo'
          )
       if (reservation.personas === 0 || reservation.personas > 5)
-         return console.error(
+         return setError(
             'Los servicios estan disponibles solo para 5 personas maximo'
          )
       if (reservation.fecha === '')
-         return console.error('El campo fecha no puede estar vacio')
+         return setError('El campo fecha no puede estar vacio')
       if (reservation.hora === '')
-         return console.error('El campo hora no puede estar vacio')
+         return setError('El campo hora no puede estar vacio')
 
       peticion(reservation, data._id)
       showFormReservation()
@@ -154,6 +155,9 @@ function FormReservation({ data, showFormReservation, peticion }) {
                Cancelar
             </button>
          </div>
+         {!!error && 
+            <ErrorModal error={error} setError={setError}/>
+         }
       </>
    )
 }

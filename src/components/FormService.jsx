@@ -1,6 +1,9 @@
 import { useState } from 'react'
+import ErrorModal from './ErrorModal'
 
 function FormService({  data, showFormService, peticion }) {
+   const [error, setError] = useState('')
+
    const [service, setService] = useState({
       titulo: data?.titulo || '',
       descripcion: data?.descripcion || '',
@@ -130,6 +133,9 @@ function FormService({  data, showFormService, peticion }) {
                Cancelar
             </button>
          </div>
+         {!!error && 
+            <ErrorModal error={error} setError={setError}/>
+         }
       </>
    )
 }

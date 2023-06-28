@@ -13,7 +13,7 @@ export const useReservations = (setLoading, setError) => {
          setLoading(true)
          setError(null)
          const peticion = await postReservation(data, user.token)
-         if(peticion?.messageError) throw new Error(peticion)
+         if(peticion?.messageError) throw new Error(peticion.messageError)
          const newList = addItemToState(peticion.reservation, reservations)
          setReservations(newList)
       } catch (error) {
@@ -28,7 +28,7 @@ export const useReservations = (setLoading, setError) => {
          setLoading(true)
          setError(null)
          const peticion = await putReservation(data, user.token, id)
-         if(peticion?.messageError) throw new Error(peticion)
+         if(peticion?.messageError) throw new Error(peticion.messageError)
          const newList = udpateItemFromState(peticion.reservation, reservations)
          setReservations(newList)
       } catch (error) {
@@ -43,7 +43,7 @@ export const useReservations = (setLoading, setError) => {
          setLoading(true)
          setError(null)
          const peticion = await deleteReservation(user.token, id)
-         if(peticion?.messageError) throw new Error(peticion)
+         if(peticion?.messageError) throw new Error(peticion.messageError)
          const newList = deleteItemFromState(peticion.reservation, reservations)
          setReservations(newList)
       } catch (error) {
@@ -73,6 +73,7 @@ export const useReservations = (setLoading, setError) => {
             setError(null)
             const userID = decodeToken(user.token).id
             const get = await getReservations(user.token, userID)
+            if(get?.messageError) throw new Error(get.messageError)
             setReservations(get.reservations)
          } catch (error) {
             setError(error.message)

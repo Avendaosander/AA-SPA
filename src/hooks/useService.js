@@ -17,7 +17,7 @@ export const useService = (id) => {
             setLoading(true)
             setError(null)
             const service = await getService(user.token, id)
-            if(service?.messageError) throw new Error(service)
+            if(service?.messageError) throw new Error(service.messageError)
             setService(service.service)
             setTestimonialsOfService(service.testimonials)
          } catch (error) {

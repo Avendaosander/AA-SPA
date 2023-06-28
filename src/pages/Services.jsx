@@ -18,11 +18,12 @@ import { UserContext } from '../context/userContext'
 import ModalEdit from '../components/ModalEdit'
 import ModalDelete from '../components/ModalDelete'
 import Loader from '../components/Loader'
+import ErrorModal from '../components/ErrorModal'
 
 
 function Services() {
    const { user, adminMode } = useContext(UserContext)
-   const { services, testimonials, addService, updateService, removeService, loading } = useSpa()
+   const { services, testimonials, addService, updateService, removeService, loading, error, setError } = useSpa()
    const [formService, setFormService] = useState(false)
    const [modalEdit, setModalEdit] = useState(false)
    const [modalDelete, setModalDelete] = useState(false)
@@ -144,6 +145,9 @@ function Services() {
             }
             {modalDelete && 
                <ModalDelete handleModalDelete={handleModalDelete} id={itemDelete} peticion={removeService}/>
+            }
+            {!!error && 
+               <ErrorModal error={error} setError={setError}/>
             }
          </main>
       </>

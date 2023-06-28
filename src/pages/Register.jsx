@@ -4,28 +4,30 @@ import { useUser } from '../hooks/useUser'
 import { UserContext } from '../context/userContext'
 import { register } from '../services/register'
 import { BsEnvelopeFill, BsLockFill, BsPersonFill } from 'react-icons/bs'
+import ErrorModal from '../components/ErrorModal'
 
 function Register() {
    const navegar = useNavigate()
    const [confirmPassword, setConfirmPassword] = useState('')
    const { setUser } = useContext(UserContext)
    const { user, handleChange } = useUser()
+   const [error, setError] = useState('')
 
    const handleSubmit = async e => {
       e.preventDefault()
       if (user.username.trim() === '')
-         return console.error('El campo username no puede estar vacio')
+         return setError('El campo username no puede estar vacio')
       if (user.email.trim() === '')
-         return console.error('El campo email no puede estar vacio')
+         return setError('El campo email no puede estar vacio')
       if (user.password.trim() === '')
-         return console.error('El campo password no puede estar vacio')
+         return setError('El campo password no puede estar vacio')
       if (confirmPassword.trim() === '')
-         return console.error('El campo Confirm Password no puede estar vacio')
+         return setError('El campo Confirm Password no puede estar vacio')
       if (user.password !== confirmPassword)
-         return console.error('Las contraseñas no son iguales')
+         return setError('Las contraseñas no son iguales')
 
       const userLoggedIn = await register(user)
-      if (userLoggedIn?.messageError) return console.error(userLoggedIn)
+      if (userLoggedIn?.messageError) return setError(userLoggedIn.messageError)
       setUser(userLoggedIn.user)
       navegar('/services')
    }
@@ -109,6 +111,9 @@ function Register() {
                Register
             </button>
          </form>
+         {!!error && 
+            <ErrorModal error={error} setError={setError}/>
+         }
       </main>
    )
 }

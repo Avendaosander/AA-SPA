@@ -6,9 +6,10 @@ import ModalEdit from '../components/ModalEdit'
 import ModalDelete from '../components/ModalDelete'
 import { useSpa } from '../hooks/useSpa'
 import Loader from '../components/Loader'
+import ErrorModal from '../components/ErrorModal'
 
 function Reservations() {
-   const { reservations, updateReservation, removeReservation, loading } = useSpa()
+   const { reservations, updateReservation, removeReservation, loading, error, setError } = useSpa()
    const [modalEdit, setModalEdit] = useState(false)
    const [modalDelete, setModalDelete] = useState(false)
    const [reserv, setReserv] = useState(null)
@@ -64,6 +65,9 @@ function Reservations() {
             }
             {modalDelete && 
                <ModalDelete handleModalDelete={handleModalDelete} id={deleteReserv} peticion={deleteReservations}/>
+            }
+            {!!error && 
+               <ErrorModal error={error} setError={setError}/>
             }
          </main>
       </>

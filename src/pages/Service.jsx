@@ -7,10 +7,11 @@ import FormReservation from '../components/FormReservation'
 import FormTestimony from '../components/FormTestimony'
 import CarruselTestimonials from '../components/CarruselTestimonials'
 import Loader from '../components/Loader'
+import ErrorModal from '../components/ErrorModal'
 
 function Service() {
    const { serviceID } = useParams()
-   const { addReservation } = useSpa()
+   const { addReservation, error, setError } = useSpa()
    const { service, testimonialsOfService, loading } = useService(serviceID)
    const [formReservation, setFormReservation] = useState(false)
    const [formTestimony, setFormTestimony] = useState(false)
@@ -98,6 +99,9 @@ function Service() {
                   </section>
                </>
             )}
+            {!!error && 
+               <ErrorModal error={error} setError={setError}/>
+            }
          </main>
       </>
    )

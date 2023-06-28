@@ -2,11 +2,14 @@ import { useContext, useState } from 'react'
 import { UserContext } from '../context/userContext'
 import { decodeToken } from 'react-jwt'
 import { useSpa } from '../hooks/useSpa'
+import ErrorModal from './ErrorModal'
 
 function FormTestimony({ data, showFormTestimony }) {
    const { user } = useContext(UserContext)
    const { addTestimony } = useSpa()
    const userID = decodeToken(user.token).id
+   const [error, setError] = useState('')
+
    const [testimony, setTesimony] = useState({
       user: userID,
       service: data._id,
@@ -23,7 +26,7 @@ function FormTestimony({ data, showFormTestimony }) {
    const handleSubmit = e => {
       e.preventDefault()
       if (testimony.descripcion.trim() === '')
-         return console.error('El campo descripcion no puede estar vacio')
+         return setError('El campo descripcion no puede estar vacio')
       addTestimony(testimony)
       showFormTestimony()
    }
@@ -65,6 +68,9 @@ function FormTestimony({ data, showFormTestimony }) {
                Cancelar
             </button>
          </div>
+         {!!error && 
+            <ErrorModal error={error} setError={setError}/>
+         }
       </>
    )
 }
