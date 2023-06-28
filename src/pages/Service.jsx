@@ -36,8 +36,8 @@ function Service() {
                <Loader/>
             ) : (
                <>
-                  <section className='grid grid-flow-col auto-cols-fr justify-around container pt-5'>
-                     <article className='flex flex-col items-center gap-5'>
+                  <section className='flex flex-col sm:flex-row justify-around gap-5 pt-5 mx-10'>
+                     <article className='flex flex-col items-center gap-5 max-w-[800px]'>
                         <h2 className='font-bold text-xl'>Descripción</h2>
                         <p className='text-lg'>{service.descripcion}</p>
                      </article>
