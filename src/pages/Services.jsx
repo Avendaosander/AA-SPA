@@ -17,6 +17,7 @@ import { useContext, useState } from 'react'
 import { UserContext } from '../context/userContext'
 import ModalEdit from '../components/ModalEdit'
 import ModalDelete from '../components/ModalDelete'
+import Loader from '../components/Loader'
 
 
 function Services() {
@@ -50,9 +51,7 @@ function Services() {
             <h2 className='font-bold text-xl sm:text-2xl'>Servicios</h2>
             <section className='grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] w-full gap-5'>
                {loading ? (
-                  <h2 className='font-medium text-lg'>
-                     Loading
-                  </h2>
+                  <Loader/>
                ) : (
                   services.length === 0 ? (
                      <h2 className='font-medium text-lg'>
@@ -127,9 +126,7 @@ function Services() {
             </h2>
             <section className='flex justify-center w-full px-5'>
                {loading ? (
-                  <h2 className='font-medium text-lg'>
-                     Loading
-                  </h2>
+                  <Loader/>
                ) : (
                   testimonials.length === 0 ? (
                      <h2 className='font-medium text-lg'>

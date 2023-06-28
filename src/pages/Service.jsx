@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import FormReservation from '../components/FormReservation'
 import FormTestimony from '../components/FormTestimony'
 import CarruselTestimonials from '../components/CarruselTestimonials'
+import Loader from '../components/Loader'
 
 function Service() {
    const { serviceID } = useParams()
@@ -31,7 +32,7 @@ function Service() {
          <Header texto={service.titulo} />
          <main className='flex flex-col items-center gap-5'>
             {loading ? (
-               <h2>Loading</h2>
+               <Loader/>
             ) : (
                <>
                   <section className='grid grid-flow-col auto-cols-fr justify-around container pt-5'>

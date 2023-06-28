@@ -5,10 +5,10 @@ import FormReservation from '../components/FormReservation'
 import ModalEdit from '../components/ModalEdit'
 import ModalDelete from '../components/ModalDelete'
 import { useSpa } from '../hooks/useSpa'
+import Loader from '../components/Loader'
 
 function Reservations() {
-   const loading = false
-   const { reservations, updateReservation, removeReservation } = useSpa()
+   const { reservations, updateReservation, removeReservation, loading } = useSpa()
    const [modalEdit, setModalEdit] = useState(false)
    const [modalDelete, setModalDelete] = useState(false)
    const [reserv, setReserv] = useState(null)
@@ -41,7 +41,7 @@ function Reservations() {
             <h2 className='font-bold text-2xl'>Reservaciones</h2>
             <section className='grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] container w-full gap-5'>
                {loading ? (
-                  <h2 className='font-medium text-lg'>Loading</h2>
+                  <Loader/>
                ) : reservations.length === 0 ? (
                   <h2 className='font-medium text-lg'>
                      No has realizado niguna reservacion
